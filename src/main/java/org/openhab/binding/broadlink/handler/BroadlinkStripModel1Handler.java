@@ -113,30 +113,12 @@ public class BroadlinkStripModel1Handler extends BroadlinkBaseThingHandler {
                     final byte[] decodedPayload = Utils.decrypt(Hex.fromHexString(properties.get("key")), ivSpec,
                             Utils.slice(response, 56, 88));
                     if (decodedPayload != null) {
-                        final int status = payload[14];
-                        if (status == 1) {
-                            this.updateState("s1powerOn", OnOffType.ON);
-                        } else {
-                            this.updateState("s1powerOn", OnOffType.OFF);
-                        }
+                        final int status = decodedPayload[14];
 
-                        if (status == 2) {
-                            this.updateState("s2powerOn", OnOffType.ON);
-                        } else {
-                            this.updateState("s2powerOn", OnOffType.OFF);
-                        }
-
-                        if (status == 4) {
-                            this.updateState("s3powerOn", OnOffType.ON);
-                        } else {
-                            this.updateState("s3powerOn", OnOffType.OFF);
-                        }
-
-                        if (status == 8) {
-                            this.updateState("s4powerOn", OnOffType.ON);
-                        } else {
-                            this.updateState("s4powerOn", OnOffType.OFF);
-                        }
+                        this.updateState("s1powerOn", (status & 1) == 1 ? OnOffType.ON : OnOffType.OFF);
+                        this.updateState("s2powerOn", (status & 2) == 2 ? OnOffType.ON : OnOffType.OFF);
+                        this.updateState("s3powerOn", (status & 4) == 4 ? OnOffType.ON : OnOffType.OFF);
+                        this.updateState("s4powerOn", (status & 8) == 8 ? OnOffType.ON : OnOffType.OFF);
 
                         return true;
                     } else {
