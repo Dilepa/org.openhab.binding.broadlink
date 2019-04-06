@@ -49,7 +49,7 @@ public class BroadlinkStripModel1Handler extends BroadlinkBaseThingHandler {
             if (command == OnOffType.ON) {
                 this.setStatusOnDevice((byte) 2, (byte) 1);
             } else if (command == OnOffType.OFF) {
-                this.setStatusOnDevice((byte) 2, (byte) 1);
+                this.setStatusOnDevice((byte) 2, (byte) 0);
             }
         }
 
@@ -57,15 +57,15 @@ public class BroadlinkStripModel1Handler extends BroadlinkBaseThingHandler {
             if (command == OnOffType.ON) {
                 this.setStatusOnDevice((byte) 3, (byte) 1);
             } else if (command == OnOffType.OFF) {
-                this.setStatusOnDevice((byte) 3, (byte) 1);
+                this.setStatusOnDevice((byte) 3, (byte) 0);
             }
+        }
 
-            if (channelUID.getId().equals("s4powerOn")) {
-                if (command == OnOffType.ON) {
-                    this.setStatusOnDevice((byte) 4, (byte) 1);
-                } else if (command == OnOffType.OFF) {
-                    this.setStatusOnDevice((byte) 4, (byte) 1);
-                }
+        if (channelUID.getId().equals("s4powerOn")) {
+            if (command == OnOffType.ON) {
+                this.setStatusOnDevice((byte) 4, (byte) 1);
+            } else if (command == OnOffType.OFF) {
+                this.setStatusOnDevice((byte) 4, (byte) 0);
             }
         }
 
@@ -82,7 +82,7 @@ public class BroadlinkStripModel1Handler extends BroadlinkBaseThingHandler {
         if (state == 1) {
             payload[6] = (byte) (178 + (sid_mask << 1));
         } else {
-            payload[6] = (byte) sid_mask;
+            payload[6] = (byte) (178 + sid_mask);
         }
 
         payload[7] = -64;
